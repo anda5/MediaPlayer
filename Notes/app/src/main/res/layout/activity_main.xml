@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#9acd32"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+  <TextView
+      android:id="@+id/textView"
+      android:text="Note"
+      android:layout_alignParentTop="true"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="25dp"
+      android:textSize="40dp"
+      android:textStyle="normal"
+      android:textColor="#050301"
+      android:fontFamily="cursive"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/titleEditText"
+        android:background="#D6EBAD"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="60dp"
+        android:hint="Enter title"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        />
+    <EditText
+        android:id="@+id/noteEditText"
+        android:layout_width="260dp"
+        android:layout_height="230dp"
+        android:background="#D6EBAD"
+        android:hint="Enter your note"
+        android:layout_below="@+id/titleEditText"
+        android:layout_marginTop="30dp"
+        android:gravity="start"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/noteEditText"
+        android:layout_marginTop="30dp"
+        android:text="Save"
+        android:textColor="#ffffff"
+        android:background="@drawable/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
