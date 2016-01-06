@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,6 +56,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         contentValues.put(CONTENT_NAME, note.get_content());
         contentValues.put(DATE_NAME, note.get_date());
 
+        Log.v("Succesfuly!!","Great");
         db.insert(DATABASE_NAME,null,contentValues);
         db.close();
     }
