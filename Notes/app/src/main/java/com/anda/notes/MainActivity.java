@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
                 title.setText("");
                 content.setText("");
 
-                Intent intent = new Intent(MainActivity.this, DetalisActivity.class);
+                Intent intent = new Intent(MainActivity.this, DisplayNotes.class);
                 startActivity(intent);
             }
         });

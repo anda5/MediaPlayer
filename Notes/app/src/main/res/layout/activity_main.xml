@@ -32,7 +32,7 @@
     <EditText
         android:id="@+id/noteEditText"
         android:layout_width="260dp"
-        android:layout_height="230dp"
+        android:layout_height="100dp"
         android:background="#D6EBAD"
         android:hint="Enter your note"
         android:layout_below="@+id/titleEditText"
@@ -41,13 +41,14 @@
         android:layout_centerHorizontal="true"/>
     <Button
         android:id="@+id/saveButton"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/noteEditText"
-        android:layout_marginTop="30dp"
         android:text="Save"
         android:textColor="#ffffff"
         android:background="@drawable/button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/noteEditText"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginTop="30dp" />
 
 </RelativeLayout>
