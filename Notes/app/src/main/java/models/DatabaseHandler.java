@@ -34,10 +34,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
         String CREATE_NOTES_TABLE = "CREATE TABLE "+ TABLE_NAME+
-                                    "("+ KEY_ID + " INTEGER PRIMARY KEY, "+
+                                    "("+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
                                          TITLE_NAME + " TEXT, "+
                                          CONTENT_NAME+ " TEXT, "+
-                                         DATE_NAME+    " LONG);";
+                                         DATE_NAME+    " TEXT);";
         db.execSQL(CREATE_NOTES_TABLE);
 
     }
@@ -57,22 +57,20 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         contentValues.put(DATE_NAME, note.get_date());
 
         Log.v("Succesfuly!!","Great");
-        db.insert(DATABASE_NAME,null,contentValues);
+        db.insert(TABLE_NAME,null,contentValues);
         db.close();
     }
 
     public ArrayList<Note> getNotes(){
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM "+ DATABASE_NAME;
+        String query = "SELECT * FROM "+ TABLE_NAME;
         Cursor cursor = db.query(TABLE_NAME,new String[]{KEY_ID,TITLE_NAME,CONTENT_NAME,DATE_NAME},null,null,null,null,DATE_NAME+" DESC");
         if(cursor.moveToFirst()){
             do{
                 Note note = new Note();
                 note.set_title(cursor.getString(cursor.getColumnIndex(TITLE_NAME)));
                 note.set_content(cursor.getString(cursor.getColumnIndex(CONTENT_NAME)));
-                java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
-                String date = dateFormat.format(new Date(cursor.getLong(cursor.getColumnIndex(DATE_NAME))).getTime());
-                note.set_date(date);
+                note.set_date(cursor.getString(cursor.getColumnIndex(DATE_NAME)));
                 notes.add(note);
             }while (cursor.moveToNext());
         }

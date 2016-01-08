@@ -8,6 +8,15 @@ public class Note {
     public String _title;
     public String _content;
     public String _date;
+    public int _id;
+
+    public int get_id() {
+        return _id;
+    }
+
+    public void set_id(int _id) {
+        this._id = _id;
+    }
 
     public String get_title() {
         return _title;

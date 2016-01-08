@@ -1,15 +1,13 @@
 package com.anda.notes;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,12 +18,13 @@ import data.Note;
 import models.DatabaseHandler;
 
 
-public class DisplayNotes extends ActionBarActivity {
+public class DisplayNotes extends Activity {
 
-    private DatabaseHandler databaseHandler;
-    private ArrayList<Note> notes = new ArrayList<>();
-    private NoteAdapter noteAdapter;
+    private DatabaseHandler dba;
+    private ArrayList<Note> dbWishes = new ArrayList<>();
+    private WishAdapter wishAdapter;
     private ListView listView;
+
 
 
 
@@ -34,96 +33,163 @@ public class DisplayNotes extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_notes);
 
-        listView = (ListView)findViewById(R.id.listNotes);
+        listView = (ListView) findViewById(R.id.listNotes);
 
         refreshData();
+
+
+
     }
 
-    public void refreshData(){
-        notes.clear();
+    private void refreshData() {
+        dbWishes.clear();
+        dba = new DatabaseHandler(getApplicationContext());
 
-        databaseHandler = new DatabaseHandler(getApplicationContext());
-        ArrayList<Note> notes1 = databaseHandler.getNotes();
-        for(Note note : notes1){
-            Note note1 = new Note();
-            note1.set_title(note.get_title());
-            note1.set_content(note.get_content());
-            note1.set_date(note.get_date());
-            notes.add(note1);
+        ArrayList<Note> wishesFromDB = dba.getNotes();
+
+        for (int i = 0; i < wishesFromDB.size(); i++){
+
+            String title = wishesFromDB.get(i).get_title();
+            String dateText = wishesFromDB.get(i).get_date();
+            String content = wishesFromDB.get(i).get_content();
+            int mid = wishesFromDB.get(i).get_id();
+
+
+            //Log.v("IDs: " , String.valueOf(mid));
+
+            Note myWish = new Note();
+            myWish.set_title(title);
+            myWish.set_content(content);
+            myWish.set_date(dateText);
+            myWish.set_id(mid);
+            dbWishes.add(myWish);
+
+
         }
-        databaseHandler.close();
+        dba.close();
 
-        noteAdapter = new NoteAdapter(DisplayNotes.this,R.layout.note_row,notes);
-        listView.setAdapter(noteAdapter);
-        noteAdapter.notifyDataSetChanged();
+        //setup adapter
+        wishAdapter = new WishAdapter(DisplayNotes.this,R.layout.note_row, dbWishes);
+        listView.setAdapter(wishAdapter);
+        wishAdapter.notifyDataSetChanged();
+
+
     }
-      public class NoteAdapter extends ArrayAdapter<Note>{
-      Activity activity;
-      int layoutResource;
 
-          @Override
-          public int getCount() {
-              return mData.size();
-          }
+    public class WishAdapter extends ArrayAdapter<Note>{
+        Activity activity;
+        int layoutResource;
+        Note wish;
+        ArrayList<Note> mData = new ArrayList<>();
 
-          @Override
-          public Note getItem(int position) {
-              return mData.get(position);
-          }
+        public WishAdapter(Activity act, int resource, ArrayList<Note> data) {
+            super(act, resource, data);
+            activity = act;
+            layoutResource = resource;
+            mData = data;
+            notifyDataSetChanged();
 
-          @Override
-          public int getPosition(Note item) {
-              return super.getPosition(item);
-          }
 
-          @Override
-          public long getItemId(int position) {
-              return super.getItemId(position);
-          }
+        }
 
-          @Override
-          public View getView(int position, View convertView, ViewGroup parent) {
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
 
-              View row = convertView;
-              ViewHolder holder = null;
-              if(row==null||(row.getTag())==null){
-                  LayoutInflater layoutInflater = LayoutInflater.from(activity);
-                  row = layoutInflater.inflate(layoutResource,null);
-                  holder = new ViewHolder();
+        @Override
+        public Note getItem(int position) {
+            return mData.get(position);
+        }
 
-                  holder.mTitle = (TextView)row.findViewById(R.id.name);
-                  holder.mDate = (TextView)row.findViewById(R.id.theDate);
+        @Override
+        public int getPosition(Note item) {
+            return super.getPosition(item);
+        }
 
-                  row.setTag(holder);
-              }else {
-                  holder = (ViewHolder)row.getTag();
-              }
+        @Override
+        public long getItemId(int position) {
+            return super.getItemId(position);
+        }
 
-              holder.note=getItem(position);
-              holder.mTitle.setText(holder.note.get_title());
-              holder.mDate.setText(holder.note.get_date());
-              return  row;
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
 
-          }
-          class ViewHolder{
-              Note note;
-              TextView mTitle;
-              TextView mId;
-              TextView mContent;
-              TextView mDate;
-          }
+            View row = convertView;
+            ViewHolder holder = null;
 
-          Note note;
-      ArrayList<Note> mData = new ArrayList<>();
+            if ( row == null || (row.getTag()) == null){
 
-          public NoteAdapter(Activity ct, int resource, ArrayList<Note> notes) {
-              super(ct, resource, notes);
-              activity = ct;
-              layoutResource = resource;
-              mData = notes;
-              notifyDataSetChanged();
-          }
-      }
+                LayoutInflater inflater = LayoutInflater.from(activity);
 
+                row = inflater.inflate(layoutResource, null);
+                holder = new ViewHolder();
+
+                holder.mTitle = (TextView) row.findViewById(R.id.name);
+                holder.mDate = (TextView) row.findViewById(R.id.date);
+
+
+
+                row.setTag(holder);
+
+            }else {
+
+                holder = (ViewHolder) row.getTag();
+            }
+
+            holder.note = getItem(position);
+
+            holder.mTitle.setText(holder.note.get_title());
+            holder.mDate.setText(holder.note.get_date());
+
+
+
+            final ViewHolder finalHolder = holder;
+            holder.mTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String text = finalHolder.note.get_content().toString();
+                    String dateText = finalHolder.note.get_date().toString();
+                    String title = finalHolder.note.get_title().toString();
+
+                    int mid = finalHolder.note.get_id();
+
+                    Log.v("MyId: " , String.valueOf(mid));
+
+
+//
+
+
+
+
+                    Intent i = new Intent(DisplayNotes.this, DetalisActivity.class);
+                    i.putExtra("content", text);
+                    i.putExtra("date", dateText);
+                    i.putExtra("title", title);
+                    i.putExtra("id", mid);
+                    startActivity(i);
+                }
+            });
+            return row;
+
+        }
+
+
+
+
+
+        class ViewHolder{
+            TextView mTitle;
+            int mId;
+            TextView mContent;
+            TextView mDate;
+            public Note note;
+        }
+
+    }
 
 }
+
+
+

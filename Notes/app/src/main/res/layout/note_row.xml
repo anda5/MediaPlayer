@@ -7,10 +7,9 @@
     <ImageView
         android:id="@+id/thumbnail"
         android:src="@drawable/quill"
-        android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/dete" />
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:layout_alignBottom="@+id/date" />
     <TextView
         android:id="@+id/name"
         android:layout_marginLeft="5dp"
@@ -23,7 +22,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/dete"
+        android:id="@+id/date"
         android:layout_marginLeft="5dp"
         android:text="Date"
         android:textSize="12sp"
