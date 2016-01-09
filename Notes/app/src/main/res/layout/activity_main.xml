@@ -21,24 +21,24 @@
 
     <EditText
         android:id="@+id/titleEditText"
-        android:background="#D6EBAD"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="60dp"
+
+        android:background="@drawable/text"
         android:hint="Enter title"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        />
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
     <EditText
         android:id="@+id/noteEditText"
         android:layout_width="260dp"
         android:layout_height="100dp"
-        android:background="#D6EBAD"
+        android:background="@drawable/text"
         android:hint="Enter your note"
-        android:layout_below="@+id/titleEditText"
-        android:layout_marginTop="30dp"
         android:gravity="start"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@+id/titleEditText"
+        android:layout_alignLeft="@+id/titleEditText"
+        android:layout_alignStart="@+id/titleEditText"
+        android:layout_marginTop="25dp" />
     <Button
         android:id="@+id/saveButton"
         android:text="Save"
@@ -46,9 +46,37 @@
         android:background="@drawable/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/noteEditText"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginTop="30dp" />
+        android:layout_marginBottom="125dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/noteEditText"
+        android:layout_alignStart="@+id/noteEditText" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:text="Delete"
+        android:textColor="#ffffff"
+        android:background="@drawable/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/saveButton"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:id="@+id/photoButton"
+        android:text="Photo"
+        android:textColor="#ffffff"
+        android:background="@drawable/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/deleteButton"
+        android:layout_toRightOf="@+id/deleteButton"
+        android:layout_toEndOf="@+id/deleteButton" />
+
+    <ImageView
+        android:onClick="takePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
