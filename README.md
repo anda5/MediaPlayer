@@ -7,6 +7,8 @@ On this window user should complete the title and description of note.
 
 
 After note has been saved, user can see all the notes in a list.
+
+
 ![Alt text](https://cloud.githubusercontent.com/assets/9405801/13381837/7ef735ac-de6e-11e5-9e04-9972fc2844c0.jpg)
 
 
